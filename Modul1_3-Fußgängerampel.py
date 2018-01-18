@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-    LF6-TW1.2 | Modul 1 | Aufgabe 3 & 3a
+    LF6-TW1.2 | Modul 1 | Aufgabe 3 & 3a - Zusatzprogramm
     von Lidia Machnik, Malte Jesgarzewsky, Dominik Naumann & Marcel Schmager
 '''
 
@@ -47,6 +47,7 @@ def destroy():
     GPIO.cleanup()                                                      # RESET, GPIO-Pins freigeben
     sys.exit()
 
+
 def set_pressed(channel):
     global IS_PRESSED
     IS_PRESSED = True
@@ -55,11 +56,14 @@ def set_pressed(channel):
 def loop():
     global IS_PRESSED
     time.sleep(3)
-    GPIO.output(LED_RED, GPIO.LOW)
-    GPIO.output(LED_RED_2, GPIO.LOW)
     while True:
         if IS_PRESSED == True:
-            print 'Fußgängerampel startet Durchlauf.'
+            time.sleep(3)
+            GPIO.output(LED_GREEN, GPIO.HIGH)
+            GPIO.output(LED_YELLOW, GPIO.LOW)
+            time.sleep(3)
+            GPIO.output(LED_YELLOW, GPIO.HIGH)
+            GPIO.output(LED_RED, GPIO.LOW)
             time.sleep(3)
             GPIO.output(LED_RED, GPIO.LOW)
             GPIO.output(LED_RED_2, GPIO.HIGH)
@@ -68,24 +72,16 @@ def loop():
             GPIO.output(LED_RED_2, GPIO.LOW)
             GPIO.output(LED_GREEN_2, GPIO.HIGH)
             time.sleep(3)
+            GPIO.output(LED_RED, GPIO.LOW)
+            GPIO.output(LED_YELLOW, GPIO.LOW)
+            time.sleep(3)
+            GPIO.output(LED_RED, GPIO.HIGH)
+            GPIO.output(LED_YELLOW, GPIO.HIGH)
+            GPIO.output(LED_GREEN, GPIO.LOW)
             IS_PRESSED = False
         else:
+            GPIO.output(LED_GREEN, GPIO.LOW)
             GPIO.output(LED_RED_2, GPIO.LOW)
-            time.sleep(5)
-
-        print 'Autoampel startet Durchlauf.'
-        GPIO.output(LED_RED, GPIO.LOW)
-        GPIO.output(LED_YELLOW, GPIO.LOW)
-        time.sleep(3)
-        GPIO.output(LED_RED, GPIO.HIGH)
-        GPIO.output(LED_YELLOW, GPIO.HIGH)
-        GPIO.output(LED_GREEN, GPIO.LOW)
-        time.sleep(15)
-        GPIO.output(LED_GREEN, GPIO.HIGH)
-        GPIO.output(LED_YELLOW, GPIO.LOW)
-        time.sleep(3)
-        GPIO.output(LED_YELLOW, GPIO.HIGH)
-        GPIO.output(LED_RED, GPIO.LOW)
 
 if __name__ == '__main__':                                              # Programmstart
     setup()
